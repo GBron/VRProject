@@ -11,8 +11,7 @@ public class Enemy : MonoBehaviour
 
     private int _hp;
     private AudioSource _audioSource;
-    // private bool _canFire => _fireRoutine == null;
-    private bool _isFiring = false;
+    private bool _canFire => _fireRoutine == null;
     private Coroutine _fireRoutine;
 
     private void Awake()
@@ -44,7 +43,7 @@ public class Enemy : MonoBehaviour
     {
         Move();
 
-        if (_detector._isPlayerDetected && !_isFiring)
+        if (_detector._isPlayerDetected && _canFire && _hp > 0)
         {
             AttackPlayer();
         }
@@ -63,7 +62,6 @@ public class Enemy : MonoBehaviour
 
     private void AttackPlayer()
     {
-        _isFiring = true;
         _fireRoutine = StartCoroutine(FireCoroutine());
     }
 
@@ -102,7 +100,6 @@ public class Enemy : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        _isFiring = false;
         _fireRoutine = null;
     }
 }
