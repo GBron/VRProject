@@ -1,19 +1,40 @@
+using Base;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MachineGun : MonoBehaviour
 {
-    [SerializeField] Transform _grip;
-    [SerializeField] Transform _visualGrip;
-    [SerializeField] Transform _gun;
-    [SerializeField] Transform _muzzle;
-    [SerializeField] GameObject _bulletPrefab;
+    [SerializeField] private Transform _grip;
+    [SerializeField] private Transform _visualGrip;
+    [SerializeField] private Transform _gun;
+    [SerializeField] private Transform _muzzle;
+    [SerializeField] private AudioClip _fireSound;
+    [SerializeField] private AudioSource _audioSource;
+    
+    private Coroutine _fireRoutine;
+    private bool _isFiring = false;
+    private bool _canFire => _fireRoutine == null;
+    private WaitForSeconds _fireWait = new WaitForSeconds(0.1f);
 
+    private void Awake()
+    {
+        Init();
+    }
 
     private void Update()
     {
         HandleGun();
+
+        if(_isFiring && _canFire)
+        {
+            Fire();
+        }
+    }
+
+    private void Init()
+    {
+
     }
 
     private void HandleGun()
@@ -39,9 +60,33 @@ public class MachineGun : MonoBehaviour
         _grip.localRotation = _visualGrip.localRotation;
     }
 
-    public void Fire()
+    private void Fire()
     {
-        GameObject bullet = Instantiate(_bulletPrefab, _muzzle.position, _muzzle.rotation);
-        bullet.GetComponent<Rigidbody>().AddForce(_muzzle.forward * 100f, ForceMode.Impulse);
+        _fireRoutine = StartCoroutine(FireCoroutine());
+    }
+
+    public void StartFire()
+    {
+        _isFiring = true;
+    }
+
+    public void StopFire()
+    {
+        _isFiring = false;
+    }
+
+    IEnumerator FireCoroutine()
+    {
+        PlayerBullet bullet = PoolManager.Instance.GetBullet();
+        bullet.transform.SetParent(null);
+        bullet.transform.position = _muzzle.position;
+        bullet.transform.rotation = _muzzle.rotation;
+        bullet.gameObject.SetActive(true);
+        bullet.Rigid.AddForce(_muzzle.forward * 150f, ForceMode.Impulse);
+        _audioSource.PlayOneShot(_fireSound);
+
+        yield return _fireWait;
+
+        _fireRoutine = null;
     }
 }
