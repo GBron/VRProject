@@ -1,11 +1,8 @@
 using Base;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Pool;
 
-public class PlayerBullet : PooledObject
+public class EnemyBullet : PooledObject
 {
     public Rigidbody Rigid;
     private TrailRenderer _trailRenderer;
@@ -16,6 +13,16 @@ public class PlayerBullet : PooledObject
         _trailRenderer = GetComponent<TrailRenderer>();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject.layer == 3)
+        {
+            _trailRenderer.Clear();
+            Rigid.velocity = Vector3.zero;
+            ReturnPool();
+        }
+    }
 
     private void OnEnable()
     {

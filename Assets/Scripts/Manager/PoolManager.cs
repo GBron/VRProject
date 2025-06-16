@@ -5,9 +5,11 @@ using Base;
 
 public class PoolManager : Singleton<PoolManager>
 {
-    [SerializeField] PooledObject _bulletPrefab;
+    [SerializeField] PooledObject _playerBulletPrefab;
+    [SerializeField] PooledObject _enemyBulletPrefab;
 
-    public static ObjectPool _bulletPool;
+    public static ObjectPool PlayerBulletPool;
+    public static ObjectPool EnemyBulletPool;
 
     private void Awake()
     {
@@ -17,11 +19,17 @@ public class PoolManager : Singleton<PoolManager>
 
     private void Init()
     {
-        _bulletPool = new ObjectPool(transform, _bulletPrefab, 100);
+        PlayerBulletPool = new ObjectPool(transform, _playerBulletPrefab, 100);
+        EnemyBulletPool = new ObjectPool(transform, _enemyBulletPrefab, 50);
     }
 
     public PlayerBullet GetBullet()
     {
-        return _bulletPool.PopPool() as PlayerBullet;
+        return PlayerBulletPool.PopPool() as PlayerBullet;
+    }
+
+    public EnemyBullet GetEnemyBullet()
+    {
+        return EnemyBulletPool.PopPool() as EnemyBullet;
     }
 }

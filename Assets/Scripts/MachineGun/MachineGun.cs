@@ -15,7 +15,7 @@ public class MachineGun : MonoBehaviour
     private Coroutine _fireRoutine;
     private bool _isFiring = false;
     private bool _canFire => _fireRoutine == null;
-    private WaitForSeconds _fireWait = new WaitForSeconds(0.1f);
+    private WaitForSeconds _fireWait = new WaitForSeconds(0.0667f);
 
     private void Awake()
     {
