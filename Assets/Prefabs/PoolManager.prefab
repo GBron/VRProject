@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerBulletPrefab: {fileID: 4026454048888750600, guid: c06300058c9b7f541ab8e05393f2837e, type: 3}
-  _enemyBulletPrefab: {fileID: 4026454048888750600, guid: a949d650391c17946bdf4105a271f51a, type: 3}
+  _enemyBulletPrefab: {fileID: 7393660429399008106, guid: a949d650391c17946bdf4105a271f51a, type: 3}

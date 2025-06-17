@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyDetectPlayer _detector;
     [SerializeField] GameObject _destroyEffect;
     [SerializeField] GameObject _plane;
+    [SerializeField] AudioSource _gunSound;
 
     private int _hp;
     private AudioSource _audioSource;
@@ -21,7 +22,7 @@ public class Enemy : MonoBehaviour
 
     private void Init()
     {
-        _hp = 30;
+        _hp = 10;
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -82,6 +83,7 @@ public class Enemy : MonoBehaviour
         _audioSource.Play();
         _plane.SetActive(false);
         _rigid.velocity = Vector3.zero;
+        EnemyManager.Instance.EnemyCount--;
     }
 
     private void OnDrawGizmos()
@@ -92,13 +94,14 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator FireCoroutine()
     {
+        _gunSound.Play();
         EnemyBullet bullet = PoolManager.Instance.GetEnemyBullet();
         bullet.transform.SetParent(null);
         bullet.transform.position = transform.position;
         bullet.gameObject.SetActive(true);
         bullet.Rigid.AddForce((_detector.Player.transform.position - transform.position).normalized * 150f, ForceMode.Impulse);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         _fireRoutine = null;
     }

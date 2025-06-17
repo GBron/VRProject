@@ -26,7 +26,7 @@ public class Airplane : MonoBehaviour
     {
         if (other.gameObject.layer == 8 && PlayerManager.Instance.Hp.Value > 0)
         {
-            PlayerManager.Instance.TakeDamage(10);
+            PlayerManager.Instance.TakeDamage(4);
         }
     }
 
