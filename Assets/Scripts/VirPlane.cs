@@ -7,7 +7,7 @@ public class VirPlane : MonoBehaviour
     [SerializeField] private GameObject _bombEffect;
 
     private Coroutine _bombDelay;
-    private bool _canBomb => _bombDelay == null;
+    public bool _canBomb => _bombDelay == null;
 
     public void Bombing()
     {
@@ -20,7 +20,7 @@ public class VirPlane : MonoBehaviour
         Vector3 bombPos = _grountPoint.position;
         yield return new WaitForSeconds(2f);
         Instantiate(_bombEffect, bombPos, Quaternion.identity);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         _bombDelay = null;
     }
 }
