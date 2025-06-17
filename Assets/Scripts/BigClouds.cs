@@ -35,9 +35,9 @@ public class BigClouds : MonoBehaviour
 
     private void ResetPos()
     {
-        if (transform.position.z < -100f)
+        if (transform.position.z < -200f)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, 10f);
+            transform.position = new Vector3(transform.position.x, transform.position.y, 100f);
         }
     }
 }
