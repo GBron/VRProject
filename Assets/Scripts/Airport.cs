@@ -7,13 +7,15 @@ public class Airport : MonoBehaviour
     [SerializeField] private GameObject _destroyMarker;
 
     private Coroutine _radioCoroutine;
+    private bool _isDestroyed = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 13)
+        if (other.gameObject.layer == 13 && !_isDestroyed)
         {
             _destroyMarker.SetActive(true);
             _targetMarker.SetActive(false);
+            _isDestroyed = true;
             if (_radioCoroutine == null)
             {
                 _radioCoroutine = StartCoroutine(RadioDelay());
